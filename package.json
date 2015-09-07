@@ -1,5 +1,5 @@
 { 
-  "name": "redisSlug", 
+  "name": "redis-slug", 
   "description": "slugifies even utf-8 chars with the power of redis", 
   "version": "0.1.0",
   "main": "redisSlug.module.js",
