@@ -13,3 +13,7 @@ As a consequence of using Redis, the calls are asynchronous and client-side code
 
 Coming soon:
 - Tests
+
+```
+npm install redis-slug
+```
