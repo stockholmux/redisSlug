@@ -53,6 +53,7 @@ function slug(string, opts, cb) {
     
     charLookUpArray.push('unicode');
     charLookUpArray = charLookUpArray.concat(unknownChars);
+
     client.hmget(charLookUpArray,function(err,values){
       if (err) { cb(err); } else {
         unknownChars.forEach(function(anUnknown,index) {
