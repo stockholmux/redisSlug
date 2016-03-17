@@ -1,6 +1,16 @@
 var
   client;
 
+function replacements(result,opts) {
+  result = result.replace(/^\s+|\s+$/g, ''); // trim leading/trailing spaces
+  result = result.replace(/[-\s]+/g, opts.replacement); // convert spaces
+  result = result.replace(opts.replacement+"$",''); // remove trailing separator
+  if (opts.lower)
+    result = result.toLowerCase();
+  
+  return result;
+}
+
 function slug(string, opts, cb) {
     var
       charLookUpArray = [],
@@ -53,23 +63,22 @@ function slug(string, opts, cb) {
     
     charLookUpArray.push('unicode');
     charLookUpArray = charLookUpArray.concat(unknownChars);
+    if (charLookUpArray.length > 1) {
+      client.hmget(charLookUpArray,function(err,values){
+        if (err) { cb(err); } else {
+          unknownChars.forEach(function(anUnknown,index) {
+            result = result.split(anUnknown).join(values[index]);
+          });
 
-    client.hmget(charLookUpArray,function(err,values){
-      if (err) { cb(err); } else {
-        unknownChars.forEach(function(anUnknown,index) {
-          result = result.split(anUnknown).join(values[index]);
-        });
+          cb(null, replacements(result,opts));
+        }
         
-        result = result.replace(/^\s+|\s+$/g, ''); // trim leading/trailing spaces
-        result = result.replace(/[-\s]+/g, opts.replacement); // convert spaces
-        result = result.replace(opts.replacement+"$",''); // remove trailing separator
-        if (opts.lower)
-          result = result.toLowerCase();
-          
-       cb(null, result);
-      }
-      
-    });
+      });
+    } else {
+      cb(null, replacements(result,opts));
+    }
+    
+
 };
 
 slug.defaults = {

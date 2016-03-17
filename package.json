@@ -1,7 +1,7 @@
 {
   "name": "redis-slug",
   "description": "slugifies even utf-8 chars with the power of redis",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "main": "redisSlug.module.js",
   "keywords": [
     "slugify",
